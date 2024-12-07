@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 export const parentDetailsPostReq = async (req, res) => {
                               try {
                               const {
-                              id,
                               username,
                               name,
                               surname,
@@ -12,11 +11,9 @@ export const parentDetailsPostReq = async (req, res) => {
                               phone,
                               address,                      
                               createdAt,
-                              
                               } = req.body;
                              console.log(req.body);
                              if (
-                              !id ||
                               !username ||
                               !name ||
                               !surname ||
@@ -31,7 +28,6 @@ export const parentDetailsPostReq = async (req, res) => {
                           }
                           const newParents = await prisma.parent.create({
                               data: {
-                                  id,
                                   username,
                                   name,
                                   surname,

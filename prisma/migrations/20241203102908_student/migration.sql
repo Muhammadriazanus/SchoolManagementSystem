@@ -14,7 +14,7 @@ CREATE TABLE "Admin" (
 
 -- CreateTable
 CREATE TABLE "Student" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE "Student" (
     "bloodType" TEXT NOT NULL,
     "sex" "UserSex" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "parentId" TEXT NOT NULL,
+    "parentId" INTEGER NOT NULL,
     "classId" INTEGER NOT NULL,
     "gradeId" INTEGER NOT NULL,
     "birthday" TIMESTAMP(3) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE "Student" (
 
 -- CreateTable
 CREATE TABLE "Teacher" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE "Teacher" (
 
 -- CreateTable
 CREATE TABLE "Parent" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE "Class" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "capacity" INTEGER NOT NULL,
-    "supervisorId" TEXT,
+    "supervisorId" INTEGER NOT NULL,
     "gradeId" INTEGER NOT NULL,
 
     CONSTRAINT "Class_pkey" PRIMARY KEY ("id")
@@ -101,7 +101,7 @@ CREATE TABLE "Lesson" (
     "endTime" TIMESTAMP(3) NOT NULL,
     "subjectId" INTEGER NOT NULL,
     "classId" INTEGER NOT NULL,
-    "teacherId" TEXT NOT NULL,
+    "teacherId" INTEGER NOT NULL,
 
     CONSTRAINT "Lesson_pkey" PRIMARY KEY ("id")
 );
@@ -132,9 +132,11 @@ CREATE TABLE "Assignment" (
 CREATE TABLE "Result" (
     "id" SERIAL NOT NULL,
     "score" INTEGER NOT NULL,
+    "lesson" TEXT NOT NULL,
+    "grade" TEXT NOT NULL,
     "examId" INTEGER,
     "assignmentId" INTEGER,
-    "studentId" TEXT NOT NULL,
+    "studentId" INTEGER NOT NULL,
 
     CONSTRAINT "Result_pkey" PRIMARY KEY ("id")
 );
@@ -144,7 +146,7 @@ CREATE TABLE "Attendance" (
     "id" SERIAL NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "present" BOOLEAN NOT NULL,
-    "studentId" TEXT NOT NULL,
+    "studentId" INTEGER NOT NULL,
     "lessonId" INTEGER NOT NULL,
 
     CONSTRAINT "Attendance_pkey" PRIMARY KEY ("id")
@@ -176,7 +178,7 @@ CREATE TABLE "Announcement" (
 -- CreateTable
 CREATE TABLE "_SubjectToTeacher" (
     "A" INTEGER NOT NULL,
-    "B" TEXT NOT NULL
+    "B" INTEGER NOT NULL
 );
 
 -- CreateIndex
@@ -234,7 +236,7 @@ ALTER TABLE "Student" ADD CONSTRAINT "Student_classId_fkey" FOREIGN KEY ("classI
 ALTER TABLE "Student" ADD CONSTRAINT "Student_gradeId_fkey" FOREIGN KEY ("gradeId") REFERENCES "Grade"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Class" ADD CONSTRAINT "Class_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "Teacher"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Class" ADD CONSTRAINT "Class_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "Teacher"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Class" ADD CONSTRAINT "Class_gradeId_fkey" FOREIGN KEY ("gradeId") REFERENCES "Grade"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

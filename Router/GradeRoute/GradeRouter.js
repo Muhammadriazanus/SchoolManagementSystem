@@ -4,6 +4,6 @@ import { gradeController } from '../../Controller/Grade/gradeController.js'
 
 const gradeControllerAuth = express.Router()
 
-gradeControllerAuth.post("/gradeController",gradeController)
+gradeControllerAuth.post("/gardeController",gradeController)
 
 export default gradeControllerAuth
